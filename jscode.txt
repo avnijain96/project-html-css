@@ -1,0 +1,101 @@
+document.getElementById("alertSuccess").style.display="none";
+document.getElementById("alertDanger").style.display="none";
+document.getElementById("alertSuccess1").style.display="none";
+document.getElementById("alertDanger1").style.display="none";
+function SubmitSignUp(){
+
+  const inputName= document.getElementById("userName");
+  const inputEmail= document.getElementById("emailId");
+  const inputPassword= document.getElementById("password");
+  const pass=password.value.length;
+  if(inputName.value === "" ){
+    document.getElementById("usernameValidation").innerHTML="Username should not be empty";
+  }
+    else if(!inputEmail.value.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)){
+      document.getElementById("emailIdValidation").innerHTML="Email id must be in right format";
+    }
+      else if((pass == "" || pass>9 || pass<5) ){
+    document.getElementById("passwordValidation").innerHTML="Password should not be correct";
+  }
+  else{
+    document.getElementById("alertSuccess").style.visibility="visible";
+  const obj={
+  name:inputName.value,   
+  email:inputEmail.value,
+  password:inputPassword.value
+  };
+  console.log(obj);
+  const data = JSON.parse(localStorage.getItem('user'));
+  data.push(obj);
+  console.log(data);
+  localStorage.setItem("user",JSON.stringify(data));
+  }
+}
+function submitLogin(){
+
+  const emailid1 = document.getElementById('emailid').value;
+  const userPw = document.getElementById('password1').value;
+  const getData=localStorage.getItem("user");
+  const getObject=JSON.parse(getData);
+  const l=getObject.length;
+  let validated = true;
+  for(let i=0;i<l;i++){
+    if((getObject[i].email !== emailid1) && (getObject[i].password !== userPw)) {
+      validated = false;
+      break;
+    } else {
+      validated = true;
+      break;
+    }
+  }
+  if (!validated) {
+    document.getElementById("myloginModal").style.visibility="visible";
+    document.getElementById("alertDanger1").style.display="block";
+    document.getElementById("alertDanger1").style.visibility="visible";
+    document.getElementById("alertSuccess1").style.visibility="hidden"; 
+  } 
+  else {
+    document.getElementById("myloginModal").style.visibility="visible";
+    document.getElementById("alertSuccess1").style.display="block";
+    document.getElementById("alertSuccess1").style.visibility="visible";
+    document.getElementById("alertDanger1").style.visibility="hidden"; 
+  }
+}
+
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('needs-validation');
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          // console.log(form.checkValidity());
+          console.log(validation);
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+      
+    });
+  }, false);
+})();
+
+var notShown=false;
+function togNav() {
+  console.log('i m clicked',notShown);
+  const nav = document.getElementById("mySidenav");
+  const main=document.getElementById("main");
+  if (notShown) {
+    nav.style.display="block";
+    notShown=!notShown;
+    nav.style.top = "50px";
+    main.style.marginLeft="170px";
+    nav.style.overflow= "visible";
+  }
+  else {
+    nav.style.display = "none";
+    notShown=!notShown;
+    main.style.marginLeft="0";
+  }
+}
